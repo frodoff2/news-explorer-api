@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose'); // модуль для монго
 const bodyParser = require('body-parser');

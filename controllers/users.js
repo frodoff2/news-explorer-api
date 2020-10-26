@@ -1,3 +1,5 @@
+ const { NODE_ENV, JWT_SECRET } = process.env;
+
  const User = require('../models/user');
  const bcrypt = require('bcryptjs');
  const jwt = require('jsonwebtoken');
@@ -7,10 +9,10 @@
  const AuthError = require('../errors/auth-err');
 
  module.exports.getUser = (req, res, next) => {
-  User.findById(req.user._id) // req.user._id?
+  User.findById(req.user._id) 
     .then((user) => {
       if(user) {
-        res.status(200).send({ name: user.name, email: user.email }); // name: user.name, email:
+        res.status(200).send({ name: user.name, email: user.email });
       }
       throw new NotFoundError('Нет пользователя с таким id')
     })
@@ -40,7 +42,10 @@
      const {email, password} = req.body;
      User.findUserByCredentials(email, password)
      .then((user) => {
-    const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+    const token = jwt.sign(
+      { _id: user._id },
+      NODE_ENV === 'production' ? JWT_SECRET: 'dev-secret', { expiresIn: '7d' }
+      );
     res.send({ token });
   })
   .catch(() => {

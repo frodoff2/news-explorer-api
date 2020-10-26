@@ -2,6 +2,8 @@ const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-err');
 const RequestError = require('../errors/request-err');
 
+const Forbidden = require('../error/forbidden-err.js');
+
 // получаем все статьи
 module.exports.getArticles = (req, res, next) => {
   Article.find({})
@@ -36,7 +38,7 @@ module.exports.deleteArticle = (req, res, next) => {
   Article.findOneAndDelete({ _id: req.params.id, owner })
     .then((card) => {
       if (!card) {
-        throw new RequestError('Что-то не так с запросом'); // Заменить на Forbidden
+        throw new Forbidden('Что-то не так с запросом');
       }
       res.send(card);
     })
