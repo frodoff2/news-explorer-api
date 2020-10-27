@@ -16,7 +16,7 @@
 http://mukhabbatnews.students.nomoreparties.co/
 
 ## Публичный API
-178.154.227.106
+178.154.226.97
 
 ## Запустить сервер
-ssh mukhabbat@178.154.227.106
+ssh mukhabbat@178.154.226.97
