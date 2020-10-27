@@ -2,7 +2,7 @@ const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-err');
 const RequestError = require('../errors/request-err');
 
-const Forbidden = require('../error/forbidden-err.js');
+const Forbidden = require('../errors/forbidden-err.js');
 
 // получаем все статьи
 module.exports.getArticles = (req, res, next) => {
