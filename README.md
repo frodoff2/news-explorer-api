@@ -13,10 +13,7 @@
 `npm run dev` — запускает сервер с hot-reload
 
 ## Доменный адрес:
-http://mukhabbatnews.students.nomoreparties.co/
+http://news-mukhabbat.students.nomoreparties.co/
 
 ## Публичный API
 178.154.226.97
-
-## Запустить сервер
-ssh mukhabbat@178.154.226.97

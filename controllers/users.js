@@ -1,55 +1,54 @@
- const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
- const User = require('../models/user');
- const bcrypt = require('bcryptjs');
- const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
- const NotFoundError = require('../errors/not-found-err');
- const ConflictErr = require('../errors/conflict-err');
- const AuthError = require('../errors/auth-err');
+const NotFoundError = require('../errors/not-found-err');
+const ConflictErr = require('../errors/conflict-err');
+const AuthError = require('../errors/auth-err');
 
- module.exports.getUser = (req, res, next) => {
-  User.findById(req.user._id) 
+module.exports.getUser = (req, res, next) => {
+  User.findById(req.user._id)
     .then((user) => {
-      if(user) {
+      if (user) {
         res.status(200).send({ name: user.name, email: user.email });
       }
-      throw new NotFoundError('Нет пользователя с таким id')
+      throw new NotFoundError('Нет пользователя с таким id');
     })
     .catch(next);
- };
+};
 
- module.exports.postUser = (req, res, next) => {
+module.exports.postUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
-     .then((hash) =>
-       User.create({
-        email: req.body.email,
-        name: req.body.name,
-        password: hash,
-       }))
-     .then((user) => res.send({
-       _id: user._id,
-       email: user.email,
-       name: user.name,
-     }))
-     .catch(() => {
-       throw new ConflictErr('Ошибка')
-     })
-     .catch(next);
- }
+    .then((hash) => User.create({
+      email: req.body.email,
+      name: req.body.name,
+      password: hash,
+    }))
+    .then((user) => res.send({
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+    }))
+    .catch(() => {
+      throw new ConflictErr('Кофликт при запросе');
+    })
+    .catch(next);
+};
 
- module.exports.login = (req, res, next) => {
-     const {email, password} = req.body;
-     User.findUserByCredentials(email, password)
-     .then((user) => {
-    const token = jwt.sign(
-      { _id: user._id },
-      NODE_ENV === 'production' ? JWT_SECRET: 'dev-secret', { expiresIn: '7d' }
+module.exports.login = (req, res, next) => {
+  const { email, password } = req.body;
+  User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' },
       );
-    res.send({ token });
-  })
-  .catch(() => {
-    throw new AuthError('Что-то не так с авторизацией');
-  })
-  .catch(next);
+      res.send({ token });
+    })
+    .catch(() => {
+      throw new AuthError('Что-то не так с авторизацией');
+    })
+    .catch(next);
 };

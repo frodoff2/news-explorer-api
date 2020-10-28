@@ -25,8 +25,8 @@ const articleValidation = celebrate({
   body: Joi.object().keys({
     keyword: Joi.string().required().min(1).max(100),
     title: Joi.string().required().min(1),
-    text: Joi.string().required().min(5),
-    date: Joi.string().required().min(4),
+    text: Joi.string().required(),
+    date: Joi.string().required(),
     source: Joi.string().required(),
     link: Joi.string().regex(/^((http|https):\/\/)(www\.)?([A-Za-z0-9.-]{1,256})\.[A-Za-z]{2,20}/).required(),
     image: Joi.string().regex(/^((http|https):\/\/)(www\.)?([A-Za-z0-9.-]{1,256})\.[A-Za-z]{2,20}/).required(),

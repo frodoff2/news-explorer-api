@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -30,8 +28,8 @@ const articleSchema = new mongoose.Schema({
       validator(v) {
         return /^((http|https):\/\/)(www\.)?([A-Za-z0-9.-]{1,250})\.[A-Za-z]{2,25}/.test(v);
       },
-      message: 'Неверный адрес',
-   }
+      message: 'Неверная URL ссылка',
+    },
   },
   image: {
     type: String,
@@ -40,14 +38,14 @@ const articleSchema = new mongoose.Schema({
       validator(v) {
         return /^((http|https):\/\/)(www\.)?([A-Za-z0-9.-]{1,250})\.[A-Za-z]{2,25}/.test(v);
       },
-      message: 'Неверный адрес',
-    }
+      message: 'Неверная URL ссылка',
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'owner',
     required: true,
-  }, 
+  },
 });
 
 module.exports = mongoose.model('article', articleSchema);
