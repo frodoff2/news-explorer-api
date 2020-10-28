@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose'); // модуль для монго
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-const rateLimit = require('express-rate-limit');
+const { limiter } = require('./limiter');
 
 const serverError = require('./errors/server-error');
 const { login } = require('./controllers/users');
@@ -49,11 +49,6 @@ app.get('/crash-test', () => {
 app.use(errors()); // обрабатывает celebreate
 
 app.use(serverError); // централизованная ошибка
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 минут
-  max: 100,
-});
 
 app.use(limiter);
 
