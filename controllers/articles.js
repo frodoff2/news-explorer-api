@@ -35,16 +35,20 @@ module.exports.postArticle = (req, res, next) => {
 };
 
 // удаляем статью
+
 module.exports.deleteArticle = (req, res, next) => {
   const owner = req.user._id;
-  Article.findOneAndDelete({ _id: req.params.id, owner })
+  Article.findOne({ _id: req.params.id })
+    .select('+owner')
+    .orFail(() => new NotFoundError('Нет такой статьи '))
     .then((card) => {
-      if (!card) {
-        throw new Forbidden('Статья не ваша');
-      } else if (card === null) {
-        throw new NotFoundError('Нет такой статьи');
+      if (card.owner.toString() !== owner) {
+        throw new Forbidden('Вы не можете удалять статью');
       }
-      res.send(card);
+      return Article.findByIdAndDelete(card._id);
+    })
+    .then(() => {
+      res.send({ message: 'Статья удалена' });
     })
     .catch(next);
 };

@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const { MONGO_URL } = process.env;
 const express = require('express');
 const helmet = require('helmet');
 
@@ -23,6 +24,7 @@ const app = express(); // подключаем экспресс
 
 app.use(helmet()); // для безопасности express
 
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -50,17 +52,12 @@ app.use(errors()); // обрабатывает celebreate
 
 app.use(serverError); // централизованная ошибка
 
-app.use(limiter);
-
 // подключаемся к серверу mongo
-mongoose.connect('mongodb://localhost:27017/newsdb', {
+mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);

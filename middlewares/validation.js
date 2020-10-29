@@ -33,9 +33,15 @@ const articleValidation = celebrate({
   }),
 });
 
-const articleDelete = celebrate({
+/* const articleDelete = celebrate({
   params: Joi.object().keys({
     id: Joi.string().required().min(2).max(100),
+  }),
+}); */
+
+const articleDelete = celebrate({
+  params: Joi.object().keys({
+    id: Joi.string().alphanum().length(24).hex(),
   }),
 });
 
