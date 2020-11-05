@@ -1,12 +1,12 @@
 require('dotenv').config();
 
-const { MONGO_URL } = process.env;
 const express = require('express');
 const helmet = require('helmet');
 
 const mongoose = require('mongoose'); // модуль для монго
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const { MONGO_URL } = require('./config');
 const limiter = require('./limiter');
 
 const serverError = require('./errors/server-error');
