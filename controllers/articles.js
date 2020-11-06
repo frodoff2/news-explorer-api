@@ -8,10 +8,7 @@ const Forbidden = require('../errors/forbidden-err.js');
 module.exports.getArticles = (req, res, next) => {
   Article.find({})
     .then((articles) => {
-      if (articles) {
-        res.status(200).send({ articles });
-      }
-      throw new NotFoundError('Нет статей');
+      res.status(200).send(articles);
     })
     .catch(next);
 };
