@@ -6,7 +6,8 @@ const Forbidden = require('../errors/forbidden-err.js');
 
 // получаем все статьи
 module.exports.getArticles = (req, res, next) => {
-  Article.find({})
+  const owner = req.user._id;
+  Article.find({ owner })
     .then((articles) => {
       res.status(200).send(articles);
     })
