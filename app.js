@@ -20,7 +20,8 @@ const auth = require('./middlewares/auth');
 const { PORT = 3000 } = process.env;
 
 const app = express(); // подключаем экспресс
-app.use(cors({ origin: true }));
+
+app.use(cors());
 
 app.use(limiter);
 app.use(bodyParser.json());
