@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose'); // модуль для монго
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
@@ -20,8 +19,6 @@ const auth = require('./middlewares/auth');
 const { PORT = 3000 } = process.env;
 
 const app = express(); // подключаем экспресс
-
-app.use(cors());
 
 app.use(limiter);
 app.use(bodyParser.json());
