@@ -20,12 +20,7 @@ app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger); // подключаем логгер запросов
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
+
 // роуты, не требующие авторизации
 app.post('/signup', userValidation, postUser);
 app.post('/signin', loginValidation, login);
